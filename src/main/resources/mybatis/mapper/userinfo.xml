@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.ssafy.mapper.userinfo">
+  	<select id="selectAll" resultMap="userdetail">
+  		select * from userinfo
+  	</select>
+  	<select id="search" parameterType="string" resultMap="userdetail">
+  		select * from userinfo where user_id=#{userId}
+  	</select>
+  	
+  	<insert id="insert" parameterType="userinfo">
+  		insert into userinfo (user_id, user_pw, user_name, address, phone) 
+  		values (#{userId},#{userPw}, #{userName},#{address},#{phone})
+  	</insert>
+  	<delete id="delete" parameterType="string">
+  		delete from userinfo where user_id=#{userId}
+  	</delete>
+  	<update id="update" parameterType="userinfo">
+  		update userinfo set user_pw=#{userPw}, user_name=#{userName}, address=#{address}, phone=#{phone}
+  		where user_id=#{userId}
+  	</update>
+  	<resultMap type="userinfo" id="userdetail">
+  		<id column="user_id" property="userId"/>
+  		<result column="user_pw" property="userPw"/>
+  		<result column="user_name" property="userName"/>
+  		<result column="address" property="address"/>
+  		<result column="phone" property="phone"/>
+  	</resultMap>
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	
+	<typeAliases>
+		<!-- 사용할 DTO들을 예약어로 등록 -->
+		<!-- typeAlias type="com.example.core.dto.Board" alias="board" /-->
+		<typeAlias type="com.ssafy.myapp.model.dto.SidoCodeDTO" alias="scdto"/>
+		<typeAlias type="com.ssafy.myapp.model.dto.HouseDeal" alias="housedeal"/>
+		<typeAlias type="com.ssafy.myapp.model.dto.HouseInfo" alias="houseinfo"/>
+		<typeAlias type="com.ssafy.myapp.model.dto.HousePageBean" alias="housepagebean"/>
+		<typeAlias type="com.ssafy.myapp.model.dto.Notice" alias="notice"/>
+		<typeAlias type="com.ssafy.myapp.model.dto.UserInfo" alias="userinfo"/>
+		<typeAlias type="com.ssafy.myapp.model.dto.QnA" alias="qna"/>
+		
+	</typeAliases>
+
+	<mappers>
+		<!-- 사용할 mapper 등록 -->
+		<!-- <mapper resource="mybatis/mapper/mappertemplate.xml"/> -->
+		<mapper resource="mybatis/mapper/Mapmapper.xml"/>
+		<mapper resource="mybatis/mapper/housedeal.xml"/>
+		<mapper resource="mybatis/mapper/houseinfo.xml"/>
+		<mapper resource="mybatis/mapper/userinfo.xml"/>
+		<mapper resource="mybatis/mapper/notice.xml"/>
+		<mapper resource="mybatis/mapper/qna.xml"/>
+	</mappers>
+</configuration>

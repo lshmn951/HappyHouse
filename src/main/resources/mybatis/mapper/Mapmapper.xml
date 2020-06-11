@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.ssafy.mapper.map">
+  	<select id="selectSido" resultType="scdto">
+  		select left(sido_code,2) sido_code, sido_name from sidocode
+  		order by sido_code
+  	</select>
+  
+  	<select id="selectGugun" parameterType="string" resultType="scdto">
+  		select left(gugun_code,5) gugun_code, gugun_name from guguncode
+  		where left(gugun_code,2) = #{sidocode}
+  		order by gugun_code
+  	</select>
+  	
+  	<select id="selectDong" parameterType="string" resultType="houseinfo">
+  		select distinct dong, code from houseinfo
+  		where code = #{code}
+  		order by dong
+  	</select>
+  
+  	<select id="selectApt" parameterType="string" resultType="houseinfo">
+  		select no,dong,AptName,code,jibun from houseinfo
+  		where dong = #{dong}
+  		order by AptName
+  	</select>
+  	
+  	<select id="selectAptDeal" parameterType="string" resultType="housedeal">
+  		select no,dong,AptName,code,jibun,dealAmount from housedeal
+  		where dong = #{dong}
+  		order by no
+  	</select>
+   
+	<select id="selectAptDongName" parameterType="map" resultType="housedeal">
+		select no, dong, AptName, code, jibun,dealAmount from housedeal
+		where AptName = #{name} and dong=#{dong}
+		order by no	
+	</select>
+</mapper>
