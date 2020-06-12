@@ -63,12 +63,6 @@ public class QnAController {
     @ApiOperation(value = "새로운 게시글 정보를 입력한다. 그리고 DB입력 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PostMapping
 	public ResponseEntity<String> writeQnA(@RequestBody QnA qna,HttpServletRequest req) {
-    	HttpSession session = req.getSession();
-    	UserInfo user = (UserInfo) session.getAttribute("userInfo");
-    	
-		logger.debug("writeQna - 호출");
-		logger.debug("writeqna - 호출 {}",qna);
-		qna.setQnaUserid(user.getUserId());
 		if (qnaService.insert(qna)!=0) {
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}

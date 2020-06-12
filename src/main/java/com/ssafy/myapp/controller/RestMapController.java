@@ -13,6 +13,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,14 +27,19 @@ import com.ssafy.myapp.model.dto.HouseInfo;
 import com.ssafy.myapp.model.dto.SidoCodeDTO;
 import com.ssafy.myapp.model.service.FSelectBoxService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/FSelectBoxController")
+
 public class RestMapController {
 
 	@Autowired
 	FSelectBoxService fService;
 	
-	@RequestMapping("/sido")
+
+	@GetMapping("/sido")
 	private ResponseEntity<Map<String, Object>> sido(HttpServletResponse res){
 		ResponseEntity<Map<String, Object>> entity = null;
 		res.addHeader("Access-Control-Allow-Origin", "*");
@@ -55,7 +61,7 @@ public class RestMapController {
 	}
 	
 	
-	@RequestMapping("/gugun")
+	@GetMapping("/gugun")
 	private ResponseEntity<Map<String, Object>> gugun(@RequestParam String sido,HttpServletResponse res){
 		ResponseEntity<Map<String, Object>> entity = null;
 		res.addHeader("Access-Control-Allow-Origin", "*");
@@ -77,7 +83,7 @@ public class RestMapController {
 		return entity;
 	}
 	
-	@RequestMapping("/dong")
+	@GetMapping("/dong")
 	private ResponseEntity<Map<String, Object>> dong(@RequestParam String gugun,HttpServletResponse res){
 		ResponseEntity<Map<String, Object>> entity = null;
 		res.addHeader("Access-Control-Allow-Origin", "*");
@@ -97,7 +103,7 @@ public class RestMapController {
 		return entity;
 	}
 	
-	@RequestMapping("/apt")
+	@GetMapping("/apt")
 	private ResponseEntity<Map<String, Object>> apt(@RequestParam String dong,HttpServletResponse res){
 		ResponseEntity<Map<String, Object>> entity = null;
 		res.addHeader("Access-Control-Allow-Origin", "*");
@@ -123,7 +129,7 @@ public class RestMapController {
 		return entity;
 	}
 	
-	@RequestMapping("/aptDongName")
+	@GetMapping("/aptDongName")
 	private ResponseEntity<Map<String, Object>> aptDongName(@RequestParam String dong,@RequestParam String name,HttpServletResponse res){
 		ResponseEntity<Map<String, Object>> entity = null;
 		res.addHeader("Access-Control-Allow-Origin", "*");
