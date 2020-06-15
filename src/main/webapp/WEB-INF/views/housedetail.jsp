@@ -25,8 +25,12 @@
 
 			<c:set var="root" value="${pageContext.request.contextPath }"></c:set>
 			<div class="container" align="center">
-				<%-- 	<img src ="${root }/img/${src}" onerror="this.src="resources/img/다세대주택.jpg>  --%>
+				<c:if test="${src==null }">
 				<img src="resources/img/다세대주택.jpg">
+				</c:if>
+				<c:if test="${src!=null }">
+				<img src="resources/img/${src }">
+				</c:if>
 				<h2>조회한 건물 정보</h2>
 				<c:choose>
 					<c:when test="${!empty housedeals }">

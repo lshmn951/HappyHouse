@@ -43,7 +43,10 @@ public class UserController {
 	public String houseDetail(HttpServletRequest request) {
 		int no = Integer.parseInt(request.getParameter("no"));
 		HouseDeal housedeal = hService.search(no);
-		Map<String, String> map = new HashMap<String, String>();
+		if(housedeal.getDong().charAt(0)==' ') {
+			housedeal.setDong(housedeal.getDong().substring(1));
+		}
+		Map<String, String> map = new HashMap<>();
 		map.put("dong", housedeal.getDong());
 		map.put("name", housedeal.getAptName());
 		HouseInfo houseinfo = hiService.search(map);
@@ -52,7 +55,6 @@ public class UserController {
 			request.setAttribute("src", houseinfo.getImg());
 			request.setAttribute("houseinfo", houseinfo);
 		}
-		System.out.println(housedeal.getNo());
 		request.setAttribute("housedeals", housedeal);
 		return "housedetail";
 	}
@@ -63,12 +65,14 @@ public class UserController {
 		String userPw = request.getParameter("userpw");
 
 		UserInfo selected = uService.search(userId);
-		System.out.println(userId+" "+userPw+" "+selected.getUserPw());
+		//System.out.println(userId+" "+userPw+" "+selected.getUserPw());
 		if (selected==null) { 
 			request.setAttribute("msg", "아이디/비밀번호를 확인하세요.");
+			return "user/login";
 		} else {
 			if(!selected.getUserPw().equals(userPw)) {
 				request.setAttribute("msg", "아이디/비밀번호를 확인하세요.");					
+				return "user/login";
 			}else {
 				HttpSession session = request.getSession();
 				session.setAttribute("userInfo", selected);

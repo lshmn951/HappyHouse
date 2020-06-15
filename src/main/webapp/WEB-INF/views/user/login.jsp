@@ -29,6 +29,7 @@
 <div class="container" align="center">
 	<div class="col-lg-6" align="center">
 	<h2>로그인 화면</h2>
+	${msg}
 	<form action="${root}/user/login" method="post">
 		<div class="form-group" align="left">
 				<label for="userid">아이디</label>
