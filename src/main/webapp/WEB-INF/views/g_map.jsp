@@ -24,7 +24,6 @@ let colorArr = ['table-primary','table-success','table-danger'];
 $(document).ready(function(){
 	$.get("${pageContext.request.contextPath}/FSelectBoxController/sido"
 		,function(result){
-			console.log(result);
 			$.each(result.data, function(index, vo) {
 				$("#sido").append("<option value='"+vo.sido_code+"'>"+vo.sido_name+"</option>");
 			});//each
@@ -81,7 +80,6 @@ $(document).ready(function(){
 		
 });//ready
 function geocode(jsonData,flag) {
-	console.log(jsonData);
 
 	let idx = 0;
 	if(flag == true){
@@ -137,10 +135,21 @@ function geocode(jsonData,flag) {
 			center: multi, zoom: 12
 		});
 		info = new google.maps.InfoWindow();
+		
+		var centerControlDiv = document.createElement('div');
+		  var centerControl = new CenterControl(centerControlDiv, map);
+
+		  centerControlDiv.index = 1;
+		  map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(centerControlDiv);
+		  var transitLayer = new google.maps.TransitLayer();
+		  transitLayer.setMap(map);
 	}
 	function addMarker(tmpLat, tmpLng, aptName,dong) {
+		var iconBase = "https://img.icons8.com/office/40/000000/building.png"
 		var marker = new google.maps.Marker({
 			position: new google.maps.LatLng(parseFloat(tmpLat),parseFloat(tmpLng)),
+			animation: google.maps.Animation.DROP,
+			icon: iconBase,
 			label: aptName,
 			title: aptName,
 			d: dong
@@ -151,6 +160,7 @@ function geocode(jsonData,flag) {
 			map.setCenter(marker.getPosition());
 			callHouseDealInfo(this);
 		});
+		
 		marker.setMap(map);
 	}
 	function callHouseDealInfo(maker) {
@@ -179,6 +189,39 @@ function geocode(jsonData,flag) {
 				, "json"
 		);//get
 	}
+	
+	function CenterControl(controlDiv, map) {
+
+		  // Set CSS for the control border.
+		  var controlUI = document.createElement('div');
+		  controlUI.style.backgroundColor = '#fff';
+		  controlUI.style.border = '2px solid #fff';
+		  controlUI.style.borderRadius = '3px';
+		  controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+		  controlUI.style.cursor = 'pointer';
+		  controlUI.style.marginBottom = '22px';
+		  controlUI.style.textAlign = 'center';
+		  controlUI.title = 'Click to recenter the map';
+		  controlDiv.appendChild(controlUI);
+
+		  // Set CSS for the control interior.
+		  var controlText = document.createElement('div');
+		  controlText.style.color = 'rgb(25,25,25)';
+		  controlText.style.fontFamily = 'Roboto,Arial,sans-serif';
+		  controlText.style.fontSize = '16px';
+		  controlText.style.lineHeight = '38px';
+		  controlText.style.paddingLeft = '5px';
+		  controlText.style.paddingRight = '5px';
+		  controlText.textContent = '초기화';
+		  controlUI.appendChild(controlText);
+
+		  // Setup the click event listeners: simply set the map to Chicago.
+		  controlUI.addEventListener('click', function() {
+			  initMap();
+			  $("#searchResult").empty();
+		  });
+
+		}
 </script>
 <!-- map end -->
 

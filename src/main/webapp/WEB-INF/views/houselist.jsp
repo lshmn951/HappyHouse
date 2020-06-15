@@ -20,7 +20,7 @@
 </head>
 <body>
 <br>
-	<h1 align="center">건물 목록 </h1>
+	<h1 align="center">거래 목록 </h1>
 
 	<div class = "container" align="center">
 	<br>
