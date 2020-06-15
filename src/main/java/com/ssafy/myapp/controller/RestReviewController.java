@@ -7,7 +7,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,54 +14,40 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.myapp.model.dto.Notice;
-import com.ssafy.myapp.model.service.NoticeService;
+import com.ssafy.myapp.model.dto.PrReview;
+import com.ssafy.myapp.model.dto.UserInfo;
+import com.ssafy.myapp.model.service.PrReviewService;
 
 import io.swagger.annotations.ApiOperation;
 
-@CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
-@RequestMapping("/api/notice")
-public class RestNoticeController {
-
+@RequestMapping("/api/review")
+public class RestReviewController {
 	@Autowired
-	private NoticeService nService;
-
-	@ApiOperation(value = "모든 공지사항의 정보를 반환한다.")
-	@GetMapping
-	public ResponseEntity<Map<String, Object>> listNotice() {
+	PrReviewService rService;
+	
+	@ApiOperation(value = "해당 아파트의 거주 후기를 모두 반환한다.")
+	@GetMapping("{houseNo}")
+	public ResponseEntity<Map<String, Object>> selectAllByNo(@PathVariable int houseNo) {
 		ResponseEntity<Map<String, Object>> entity = null;
 		try {
-			List<Notice> notices = nService.searchAll();
+			List<PrReview> notices = rService.selectAllByNo(houseNo);
 			entity = handleSuccess(notices);
 		} catch (RuntimeException e) {
 			entity = handleException(e);
 		}
 		return entity;
 	}
+
 	
-	@ApiOperation(value = "번호에 해당하는 공지사항의 정보를 반환한다.")
-	@GetMapping("{no}")
-	public ResponseEntity<Map<String, Object>> searchNotice(@PathVariable int no) {
-		ResponseEntity<Map<String, Object>> entity = null;
-		try {
-			Notice notice = nService.searchByNo(no);
-			entity = handleSuccess(notice);
-		} catch (RuntimeException e) {
-			entity = handleException(e);
-		}
-		return entity;
-	}
-	
-	@ApiOperation(value = "공지사항을 등록한다.")
+	@ApiOperation(value = "거주 후기를 등록한다.")
 	@PostMapping
-	public ResponseEntity<Map<String, Object>> registNotice(@RequestBody Notice notice) {
+	public ResponseEntity<Map<String, Object>> registReview(@RequestBody PrReview review) {
 		ResponseEntity<Map<String, Object>> entity = null;
 		try {
-			nService.insert(notice);
+			rService.insert(review);
 			entity = handleSuccess("success");
 		} catch (RuntimeException e) {
 			entity = handleException(e);
@@ -70,12 +55,12 @@ public class RestNoticeController {
 		return entity;
 	}
 	
-	@ApiOperation(value = "공지사항을 수정한다.")
-	@PutMapping("{no}")
-	public ResponseEntity<Map<String, Object>> updateNotice(@RequestBody Notice notice) {
+	@ApiOperation(value = "거주 후기를 수정한다.")
+	@PutMapping
+	public ResponseEntity<Map<String, Object>> updateNotice(@RequestBody PrReview review) {
 		ResponseEntity<Map<String, Object>> entity = null;
 		try {
-			nService.update(notice);
+			rService.update(review);
 			entity = handleSuccess("success");
 		} catch (RuntimeException e) {
 			entity = handleException(e);
@@ -83,12 +68,12 @@ public class RestNoticeController {
 		return entity;
 	}
 	
-	@ApiOperation(value = "공지사항을 삭제한다.")
-	@DeleteMapping("{no}")
-	public ResponseEntity<Map<String, Object>> deleteNotice(@PathVariable int no) {
+	@ApiOperation(value = "거주 후기를 삭제한다.")
+	@DeleteMapping("{num}")
+	public ResponseEntity<Map<String, Object>> deleteNotice(@PathVariable int num) {
 		ResponseEntity<Map<String, Object>> entity = null;
 		try {
-			nService.delete(no);
+			rService.delete(num);
 			entity = handleSuccess("success");
 		} catch (RuntimeException e) {
 			entity = handleException(e);

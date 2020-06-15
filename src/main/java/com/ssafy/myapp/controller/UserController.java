@@ -48,9 +48,11 @@ public class UserController {
 		map.put("name", housedeal.getAptName());
 		HouseInfo houseinfo = hiService.search(map);
 		if(houseinfo!=null) {
+			System.out.println("houseinfo: "+houseinfo);
 			request.setAttribute("src", houseinfo.getImg());
 			request.setAttribute("houseinfo", houseinfo);
 		}
+		System.out.println(housedeal.getNo());
 		request.setAttribute("housedeals", housedeal);
 		return "housedetail";
 	}

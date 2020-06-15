@@ -15,28 +15,28 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.myapp.model.dto.Notice;
-import com.ssafy.myapp.model.service.NoticeService;
+import com.ssafy.myapp.model.dto.UserInfo;
+import com.ssafy.myapp.model.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
 
 @CrossOrigin(origins = { "*" }, maxAge = 6000)
 @RestController
-@RequestMapping("/api/notice")
-public class RestNoticeController {
+@RequestMapping("/api/user")
+public class RestUserController {
 
 	@Autowired
-	private NoticeService nService;
-
-	@ApiOperation(value = "모든 공지사항의 정보를 반환한다.")
+	UserService uService;
+	
+	@ApiOperation(value = "모든 유저의 정보를 반환한다.")
 	@GetMapping
-	public ResponseEntity<Map<String, Object>> listNotice() {
+	public ResponseEntity<Map<String, Object>> listUser() {
 		ResponseEntity<Map<String, Object>> entity = null;
 		try {
-			List<Notice> notices = nService.searchAll();
+			List<UserInfo> notices = uService.searchAll();
 			entity = handleSuccess(notices);
 		} catch (RuntimeException e) {
 			entity = handleException(e);
@@ -44,25 +44,25 @@ public class RestNoticeController {
 		return entity;
 	}
 	
-	@ApiOperation(value = "번호에 해당하는 공지사항의 정보를 반환한다.")
-	@GetMapping("{no}")
-	public ResponseEntity<Map<String, Object>> searchNotice(@PathVariable int no) {
+	@ApiOperation(value = "아이디에 해당하는 유저의 정보를 반환한다.")
+	@GetMapping("{userId}")
+	public ResponseEntity<Map<String, Object>> searchUser(@PathVariable String userId) {
 		ResponseEntity<Map<String, Object>> entity = null;
 		try {
-			Notice notice = nService.searchByNo(no);
-			entity = handleSuccess(notice);
+			UserInfo user = uService.search(userId);
+			entity = handleSuccess(user);
 		} catch (RuntimeException e) {
 			entity = handleException(e);
 		}
 		return entity;
 	}
 	
-	@ApiOperation(value = "공지사항을 등록한다.")
+	@ApiOperation(value = "회원 가입을 한다.")
 	@PostMapping
-	public ResponseEntity<Map<String, Object>> registNotice(@RequestBody Notice notice) {
+	public ResponseEntity<Map<String, Object>> registNotice(@RequestBody UserInfo user) {
 		ResponseEntity<Map<String, Object>> entity = null;
 		try {
-			nService.insert(notice);
+			uService.signUp(user);
 			entity = handleSuccess("success");
 		} catch (RuntimeException e) {
 			entity = handleException(e);
@@ -70,25 +70,25 @@ public class RestNoticeController {
 		return entity;
 	}
 	
-	@ApiOperation(value = "공지사항을 수정한다.")
-	@PutMapping("{no}")
-	public ResponseEntity<Map<String, Object>> updateNotice(@RequestBody Notice notice) {
+	@ApiOperation(value = "회원 정보를 수정한다.")
+	@PutMapping("{userId}")
+	public ResponseEntity<Map<String, Object>> updateNotice(@RequestBody UserInfo user) {
 		ResponseEntity<Map<String, Object>> entity = null;
 		try {
-			nService.update(notice);
-			entity = handleSuccess("success");
+			uService.update(user);
+			entity = handleSuccess(user);
 		} catch (RuntimeException e) {
 			entity = handleException(e);
 		}
 		return entity;
 	}
 	
-	@ApiOperation(value = "공지사항을 삭제한다.")
-	@DeleteMapping("{no}")
-	public ResponseEntity<Map<String, Object>> deleteNotice(@PathVariable int no) {
+	@ApiOperation(value = "회원 탈퇴를 한다.")
+	@DeleteMapping("{userId}")
+	public ResponseEntity<Map<String, Object>> deleteNotice(@PathVariable String userId) {
 		ResponseEntity<Map<String, Object>> entity = null;
 		try {
-			nService.delete(no);
+			uService.withdraw(userId);
 			entity = handleSuccess("success");
 		} catch (RuntimeException e) {
 			entity = handleException(e);

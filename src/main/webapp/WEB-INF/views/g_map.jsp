@@ -131,11 +131,12 @@ function geocode(jsonData,flag) {
 <script>
 	var multi = {lat: 37.5665734, lng: 126.978179};
 	var map;
+	var info;
 	function initMap() {
 		map = new google.maps.Map(document.getElementById('map'), {
 			center: multi, zoom: 12
 		});
-		var marker = new google.maps.Marker({position: multi, map: map});
+		info = new google.maps.InfoWindow();
 	}
 	function addMarker(tmpLat, tmpLng, aptName,dong) {
 		var marker = new google.maps.Marker({
@@ -153,10 +154,10 @@ function geocode(jsonData,flag) {
 		marker.setMap(map);
 	}
 	function callHouseDealInfo(maker) {
+		var contentstr = "<table>";
 		$.get("${pageContext.request.contextPath}/FSelectBoxController/aptDongName"
 				,{ name: maker.title,dong:maker.d}
 				,function(result){
-					$("#searchResult").empty();
 					$.each(result.data, function(index, vo) {
 						let str = "<tr class="+colorArr[index%3]+">"
 						+ "<td><a href=\"${pageContext.request.contextPath}/detail?no="+vo.no+"\">" + vo.no + "</td>"
@@ -164,9 +165,16 @@ function geocode(jsonData,flag) {
 						+ "<td>" + vo.AptName + "</td>"
 						+ "<td>" + vo.jibun + "</td>"
 						+ "<td>" + vo.dealAmount + "</td>";
-						$("#searchResult").append(str);
+						contentstr += str;
 					});//each
-					geocode(result.data,false);
+					contentstr += "</table>";
+					var infowin = new google.maps.InfoWindow({
+						content: contentstr,
+					});
+					info.close();
+					info = infowin;
+					info.open(map,maker);
+					
 				}//function
 				, "json"
 		);//get

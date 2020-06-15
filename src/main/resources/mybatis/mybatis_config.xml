@@ -14,6 +14,7 @@
 		<typeAlias type="com.ssafy.myapp.model.dto.Notice" alias="notice"/>
 		<typeAlias type="com.ssafy.myapp.model.dto.UserInfo" alias="userinfo"/>
 		<typeAlias type="com.ssafy.myapp.model.dto.QnA" alias="qna"/>
+		<typeAlias type="com.ssafy.myapp.model.dto.PrReview" alias="review"/>
 		
 	</typeAliases>
 
@@ -26,5 +27,7 @@
 		<mapper resource="mybatis/mapper/userinfo.xml"/>
 		<mapper resource="mybatis/mapper/notice.xml"/>
 		<mapper resource="mybatis/mapper/qna.xml"/>
+		<mapper resource="mybatis/mapper/prReview.xml"/>
+		
 	</mappers>
 </configuration>

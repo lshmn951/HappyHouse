@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.ssafy.mapper.prReview">
+  	<select id="selectAllByNo" parameterType="int" resultType="review">
+  		select num,user_id as userId, content
+  		from prReview
+  		where house_no = #{houseNo}
+  	</select>
+  	
+  	<insert id="insert" parameterType="review">
+  		insert into prReview (user_id,house_no,content) values(#{userId},#{houseNo},#{content})
+  	</insert>
+  	
+  	<update id="update" parameterType="review">
+  		update prReview set content=#{content} where num=#{num}
+  	</update>
+  	
+  	<delete id="delete" parameterType="int">
+  		delete from prReview where num=#{num}
+  	</delete>
+  	
+</mapper>
