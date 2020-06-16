@@ -20,9 +20,10 @@
 </head>
 <body>
 <br>
-	<h1 align="center">거래 목록 </h1>
+	
 
 	<div class = "container" align="center">
+	<h1 align="center">거래 목록 </h1>
 	<br>
 	<form>
 		<table border='1' id="houselist_table">
@@ -37,6 +38,25 @@
 			</tr>
 		</thead>
 		<tbody id="searchResult">
+		</tbody>
+		</table>
+	</form>
+	</div>
+	<br>
+	<div class = "container" align="center">
+	<h1 align="center">인근지역 공적 마스크 판매처 </h1>
+	<br>
+	<form>
+		<table border='1' id="houselist_table">
+		<thead>
+			<tr>
+				<th>이름</th>
+				<th>판매처 유형</th>
+				<th>입고 시간</th>
+				<th>재고 상태 (색깔표시)</th>
+			</tr>
+		</thead>
+		<tbody id="maskResult">
 		</tbody>
 		</table>
 	</form>

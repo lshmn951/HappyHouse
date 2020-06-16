@@ -73,6 +73,7 @@ $(document).ready(function(){
 						$("#searchResult").append(str);
 					});//each
 					geocode(result.data,true);
+					maskStore();
 				}//function
 				, "json"
 		);//get
@@ -93,17 +94,66 @@ function geocode(jsonData,flag) {
 					, address:vo.dong+"+"+vo.AptName+"+"+vo.jibun
 				}
 				, function(data, status) {
-					console.log(data);
 					//alert(data.results[0].geometry.location.lat);
 					tmpLat = data.results[0].geometry.location.lat;
 					tmpLng = data.results[0].geometry.location.lng;
 					$("#lat_"+index).text(tmpLat);
 					$("#lng_"+index).text(tmpLng);
 					addMarker(tmpLat, tmpLng, vo.AptName,vo.dong);
+					if(jsonData.length-1 == index){
+						centerChange(tmpLat,tmpLng);
+					}
 				}
 				, "json"
 		);//get
+		
 	});//each
+}
+function maskStore(){
+		var tmpLat;
+		var tmpLng;
+		var sc = $("#sido").val();
+		var si = $("#sido option[value="+sc+"]").text();
+		var gc = $("#gugun").val();
+		var gu = $("#gugun option[value="+gc+"]").text();
+
+		$.get("https://8oi9s0nnth.apigw.ntruss.com/corona19-masks/v1/storesByAddr/json"
+				,{ address:si+" "+gu+" "+$("#dong").val()
+				}
+				, function(data, status) {
+					var name;
+					var stock_at;
+					var remain_stat;
+					$("#maskResult").empty();
+					$.each(data.stores,function(index,vo){
+						tmpLat = vo.lat;
+						tmpLng = vo.lng;
+						addMaskMarker(tmpLat,tmpLng,vo);
+						let	str = "<tr><td>" + vo.name + "</td><td>";
+						if(vo.type=="01"){
+							str+="약국</td>";
+						}else if(vo.type=="02"){
+							str+="우체국</td>";
+						}else if(vo.type=="03"){
+							str+="농협</td>";							
+						}
+						str	+= "<td>" + vo.stock_at + "</td>";
+						if(vo.remain_stat=='plenty'){
+							str+="<td style='color:green'>100개 이상</td>";
+						}else if(vo.remain_stat=='some'){
+							str+="<td style='color:yellow'>30개 이상 100개 미만</td>";
+						}else if(vo.remain_stat=='few'){
+							str+="<td style='color:red'>2개 이상 30개 미만</td>";			
+						}else if(vo.remain_stat=='empty'){
+							str+="<td style='color:gray'>1개 이하</td>";						
+						}else{
+							str+="<td>판매 중지</td>";
+						}
+						$("#maskResult").append(str);
+					});
+				}
+				, "json"
+		);//get
 }
 </script>
 시도 : <select id="sido">
@@ -144,6 +194,11 @@ function geocode(jsonData,flag) {
 		  var transitLayer = new google.maps.TransitLayer();
 		  transitLayer.setMap(map);
 	}
+	function centerChange(tmpLat, tmpLng){
+		var p = new google.maps.LatLng(parseFloat(tmpLat),parseFloat(tmpLng));
+		map.setCenter(p);
+		map.setZoom(15);
+	}
 	function addMarker(tmpLat, tmpLng, aptName,dong) {
 		var iconBase = "https://img.icons8.com/office/40/000000/building.png"
 		var marker = new google.maps.Marker({
@@ -162,6 +217,47 @@ function geocode(jsonData,flag) {
 		});
 		
 		marker.setMap(map);
+	}
+	function addMaskMarker(tmpLat, tmpLng,vo) {
+		var iconBase = "https://img.icons8.com/plasticine/50/000000/protection-mask.png"
+		var marker = new google.maps.Marker({
+			position: new google.maps.LatLng(parseFloat(tmpLat),parseFloat(tmpLng)),
+			animation: google.maps.Animation.DROP,
+			icon: iconBase,
+			label : vo.name,
+			title : vo.name,
+			stock : vo.stock_at,
+			remain : vo.remain_stat
+			
+		});
+		marker.addListener('click', function() {
+			map.setZoom(17);
+			map.setCenter(marker.getPosition());
+			callInfoWindowStore(this);
+		});
+		
+		marker.setMap(map);
+	}
+	function callInfoWindowStore(marker){
+		var str = "<h6>"+marker.title+"</h6>"
+				+"<p>입고 시간: "+marker.stock+"</p>";
+		if(marker.remain=='plenty'){
+			str+="<p style='color:green'>마스크 재고상태: 100개 이상</p>";
+		}else if(marker.remain=='some'){
+			str+="<p style='color:yellow'>마스크 재고상태: 30개 이상 100개 미만</p>";
+		}else if(marker.remain=='few'){
+			str+="<p style='color:red'>마스크 재고상태: 2개 이상 30개 미만</p>";			
+		}else if(marker.remain=='empty'){
+			str+="<p style='color:gray'>마스크 재고상태: 1개 이하</p>";						
+		}else{
+			str+="<p>마스크 판매 중지</p>";
+		}
+		var infowin = new google.maps.InfoWindow({
+			content: str,
+		});
+		info.close();
+		info = infowin;
+		info.open(map,marker);
 	}
 	function callHouseDealInfo(maker) {
 		var contentstr = "<table class='table-bordered'><tr><th>식별 번호 </th><th>아파트 이름 </th><th> 층 </th><th>거래 금액 </th><th>거래 날짜 </th></tr>";
