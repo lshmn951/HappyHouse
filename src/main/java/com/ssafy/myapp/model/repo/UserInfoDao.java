@@ -17,4 +17,8 @@ public interface UserInfoDao {
 	public int delete(String userId);
 	
 	public int update(UserInfo uo) ;
+	
+	public UserInfo searchAS(String userId);
+	
+	public int updateAS(UserInfo uo);
 }

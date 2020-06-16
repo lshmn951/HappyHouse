@@ -6,8 +6,15 @@
   	<select id="selectAll" resultMap="userdetail">
   		select * from userinfo
   	</select>
-  	<select id="search" parameterType="string" resultMap="userdetail">
-  		select * from userinfo where user_id=#{userId}
+  	<select id="search" parameterType="string" resultType="userInfo">
+  		select user_id as userId
+  				,user_pw as userPw
+  				,user_name as userName
+  				,address
+  				,phone
+  				,assets
+  				,salary
+  		 from userinfo where user_id=#{userId}
   	</select>
   	
   	<insert id="insert" parameterType="userinfo">
@@ -21,6 +28,16 @@
   		update userinfo set user_pw=#{userPw}, user_name=#{userName}, address=#{address}, phone=#{phone}
   		where user_id=#{userId}
   	</update>
+  	
+  	<select id="searchAS" parameterType="string" resultType="userinfo">
+  		select assets, salary from userinfo where user_id=#{userId}
+  	</select>
+  	
+  	<update id="updateAS" parameterType="userinfo">
+  		update userinfo set assets=#{assets},salary=#{salary}
+  		where user_id=#{userId}
+  	</update>
+  	
   	<resultMap type="userinfo" id="userdetail">
   		<id column="user_id" property="userId"/>
   		<result column="user_pw" property="userPw"/>

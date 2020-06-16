@@ -38,6 +38,16 @@ public class UserServiceImpl implements UserService{
 		return dao.update(uo);
 	}
 
+	@Override
+	public UserInfo searchAS(String userId) {
+		return dao.searchAS(userId);
+	}
+
+	@Override
+	public int updateAS(UserInfo uo) {
+		return dao.updateAS(uo);
+	}
+
 	
 
 }

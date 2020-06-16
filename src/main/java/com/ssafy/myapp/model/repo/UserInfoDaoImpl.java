@@ -41,4 +41,14 @@ public class UserInfoDaoImpl implements UserInfoDao{
 		return temp.update(ns+"update",uo);
 	}
 
+	@Override
+	public UserInfo searchAS(String userId) {
+		return temp.selectOne(ns+"selectAS",userId);
+	}
+
+	@Override
+	public int updateAS(UserInfo uo) {
+		return temp.update(ns+"updateAS",uo);
+	}
+
 }

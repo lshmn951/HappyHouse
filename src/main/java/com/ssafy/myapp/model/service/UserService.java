@@ -17,5 +17,7 @@ public List<UserInfo> searchAll();
 	
 	public int update(UserInfo uo) ;
 	
+	public UserInfo searchAS(String userId);
 	
+	public int updateAS(UserInfo uo);
 }

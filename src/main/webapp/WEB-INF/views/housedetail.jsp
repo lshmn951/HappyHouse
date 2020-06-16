@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
 </head>
 <body>
 	<main id="main">
@@ -21,15 +22,17 @@
 			</div>
 		</section>
 		<section id="blog" class="blog">
-			<h1 align="center">상세 정보</h1>
+			<h1 align="center">건물 사진</h1>
 
 			<c:set var="root" value="${pageContext.request.contextPath }"></c:set>
+
 			<div class="container" align="center">
+
 				<c:if test="${src==null }">
-				<img src="resources/img/다세대주택.jpg">
+					<img src="resources/img/다세대주택.jpg">
 				</c:if>
 				<c:if test="${src!=null }">
-				<img src="resources/img/${src }">
+					<img src="resources/img/${src }">
 				</c:if>
 				<h2>조회한 건물 정보</h2>
 				<c:choose>
@@ -45,21 +48,21 @@
 							<p>7. 지번 주소 : ${housedeals.jibun }</p>
 							<p>8. 거래 정보 : ${housedeals.type }</p>
 							<button class="btn btn-primary" id="reviewButton">거주 후기</button>
-							
+
 						</div>
 						<br>
 						<div id="PrReview">
-								<h2>거주 후기</h2>
-								<table class="table table-bordered table-hover" id="reviewtable">
-									
-								</table>
-								<c:if test="${userInfo != null}">
+							<h2>거주 후기</h2>
+							<table class="table table-bordered table-hover" id="reviewtable">
+
+							</table>
+							<c:if test="${userInfo != null}">
 								<button class="btn btn-primary" id="reviewInsert">후기 작성</button>
 								<div id="insertform">
 									<div class="form-group" align="left">
-										<label for="content">내용</label> 
-										<textarea
-											class="form-control" rows="6" id="content" name="content" required="required">
+										<label for="content">내용</label>
+										<textarea class="form-control" rows="6" id="content"
+											name="content" required="required">
 										</textarea>
 									</div>
 									<button class="btn btn-primary" id="postReview">후기 등록</button>
@@ -67,16 +70,16 @@
 								</div>
 								<div id="updateform">
 									<div class="form-group" align="left">
-										<label for="ucontent">수정 내용</label> 
-										<textarea
-											class="form-control" rows="6" id="ucontent" name="ucontent" required="required">
+										<label for="ucontent">수정 내용</label>
+										<textarea class="form-control" rows="6" id="ucontent"
+											name="ucontent" required="required">
 										</textarea>
 									</div>
 									<button class="btn btn-primary" id="putReview">후기 수정</button>
 									<button class="btn btn-primary" id="uclose">닫기</button>
 								</div>
-								</c:if>
-							</div>
+							</c:if>
+						</div>
 					</c:when>
 					<c:otherwise>
 						<p>건물 정보가 없습니다.</p>
@@ -84,7 +87,18 @@
 				</c:choose>
 				<br>
 			</div>
-
+			<div class="card"
+				style="width: 18rem; position: fixed; top: 200px; right: 50px;">
+				<div class="card-body">
+					<h3 class="card-title">내 현실은..</h3>
+					<button class="btn btn-warning" id="realb">정말 보시겠습니까?</button>
+					<div id="realdiv">
+						<div id="canbuy">
+						</div>
+						<button id="realc" class="btn btn-primary">닫기</button>
+					</div>
+				</div>
+			</div>
 		</section>
 	</main>
 	<footer id="footer">
@@ -149,6 +163,7 @@
 	$("#PrReview").hide();
 	$("#insertform").hide();
 	$("#updateform").hide();
+	$("#realdiv").hide();
 	$(document).ready(function(){
 		
 		console.log(puserId);
@@ -166,6 +181,29 @@
 		});
 		$("#uclose").click(function(){
 			$("#updateform").hide(500);
+		});
+		$("#realb").click(function(){
+			var amount = parseInt('${housedeals.dealAmount}'.replace(/,/g, ''));
+			var year = (amount-${userInfo.assets})/${userInfo.salary};
+			$("#canbuy").empty();
+			if(year<=0){
+				$("#canbuy").append("<h4>당신은 이곳에서 살 자격이 있습니다!!</h4>");
+			}else {
+				$("#canbuy").append("<br><p>이 집을 사기까지 <strong>"+year+"</strong>년 남았습니다</p>");
+				if(year<=5){
+					$("#canbuy").append("<br><h4>조금만 더 노력해 보세요~</h4>");
+				}else if(year>5 && year<=30){
+					$("#canbuy").append("<br><h4>노력만으로는 안될수도 있어요</h4><h4>저희가 추천하는 방법은...</h4>");
+					$("#canbuy").append("<a href='http://www.lotto.co.kr/' target='_blank'><img width='100%' src='resources/img/로또.jpg'/></a>");
+					
+				}else{
+					$("#canbuy").append("<br><h4>이번생은 글렀네요 다음생에 도전해보세요~</h4>");
+				}
+			}
+			$("#realdiv").show(500);
+		});
+		$("#realc").click(function(){
+			$("#realdiv").hide(100);
 		});
 		$("#postReview").click(function(){
 			$.ajax({

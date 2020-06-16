@@ -9,6 +9,8 @@ public class UserInfo implements Serializable, Comparable<UserInfo>{
 	private String userName;
 	private String address;
 	private String phone;
+	private int assets;
+	private int salary;
 	
 	public UserInfo(){};
 	
@@ -22,6 +24,38 @@ public class UserInfo implements Serializable, Comparable<UserInfo>{
 		this.phone = phone;
 	}
 
+	public UserInfo(String userId, String userPw, String userName, String address, String phone, int assets,
+			int salary) {
+		super();
+		this.userId = userId;
+		this.userPw = userPw;
+		this.userName = userName;
+		this.address = address;
+		this.phone = phone;
+		this.assets = assets;
+		this.salary = salary;
+	}
+
+	
+
+	public int getAssets() {
+		return assets;
+	}
+
+
+	public void setAssets(int assets) {
+		this.assets = assets;
+	}
+
+
+	public int getSalary() {
+		return salary;
+	}
+
+
+	public void setSalary(int salary) {
+		this.salary = salary;
+	}
 
 
 	public String getUserId() {

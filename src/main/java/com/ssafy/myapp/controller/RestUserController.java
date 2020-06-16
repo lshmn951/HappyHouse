@@ -59,7 +59,7 @@ public class RestUserController {
 	
 	@ApiOperation(value = "회원 가입을 한다.")
 	@PostMapping
-	public ResponseEntity<Map<String, Object>> registNotice(@RequestBody UserInfo user) {
+	public ResponseEntity<Map<String, Object>> registUser(@RequestBody UserInfo user) {
 		ResponseEntity<Map<String, Object>> entity = null;
 		try {
 			uService.signUp(user);
@@ -72,7 +72,7 @@ public class RestUserController {
 	
 	@ApiOperation(value = "회원 정보를 수정한다.")
 	@PutMapping("{userId}")
-	public ResponseEntity<Map<String, Object>> updateNotice(@RequestBody UserInfo user) {
+	public ResponseEntity<Map<String, Object>> updateUser(@RequestBody UserInfo user) {
 		ResponseEntity<Map<String, Object>> entity = null;
 		try {
 			uService.update(user);
@@ -85,10 +85,39 @@ public class RestUserController {
 	
 	@ApiOperation(value = "회원 탈퇴를 한다.")
 	@DeleteMapping("{userId}")
-	public ResponseEntity<Map<String, Object>> deleteNotice(@PathVariable String userId) {
+	public ResponseEntity<Map<String, Object>> deleteUser(@PathVariable String userId) {
 		ResponseEntity<Map<String, Object>> entity = null;
 		try {
 			uService.withdraw(userId);
+			entity = handleSuccess("success");
+		} catch (RuntimeException e) {
+			entity = handleException(e);
+		}
+		return entity;
+	}
+	
+	@ApiOperation(value = "아이디에 해당하는 유저의 자산 정보를 반환한다.")
+	@GetMapping("/assets/{userId}")
+	public ResponseEntity<Map<String, Object>> searchASUser(@PathVariable String userId) {
+		ResponseEntity<Map<String, Object>> entity = null;
+		try {
+			UserInfo user = uService.searchAS(userId);
+			entity = handleSuccess(user);
+		} catch (RuntimeException e) {
+			entity = handleException(e);
+		}
+		return entity;
+	}
+	
+	@ApiOperation(value = "회원의 자산 정보를 수정한다.")
+	@PutMapping("/assets")
+	public ResponseEntity<Map<String, Object>> updateASUser(@RequestBody UserInfo user) {
+		
+		ResponseEntity<Map<String, Object>> entity = null;
+		try {
+			System.out.println(user);
+			System.out.println(user.getAssets());
+			uService.updateAS(user);
 			entity = handleSuccess("success");
 		} catch (RuntimeException e) {
 			entity = handleException(e);
