@@ -165,6 +165,8 @@ $(document).ready(function(){
 			data: JsonUpdateAS(),
 			success:function(result){    				
 				alert("자산 등록이 완료되었습니다.");
+				$("#assets").val()=0;
+				$("#salary").val()=0;
 			}
 		});
 	});

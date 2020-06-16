@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -111,13 +114,15 @@ public class RestUserController {
 	
 	@ApiOperation(value = "회원의 자산 정보를 수정한다.")
 	@PutMapping("/assets")
-	public ResponseEntity<Map<String, Object>> updateASUser(@RequestBody UserInfo user) {
+	public ResponseEntity<Map<String, Object>> updateASUser(@RequestBody UserInfo user,HttpServletRequest req) {
 		
 		ResponseEntity<Map<String, Object>> entity = null;
 		try {
 			System.out.println(user);
 			System.out.println(user.getAssets());
 			uService.updateAS(user);
+			HttpSession session = req.getSession();
+			session.setAttribute("userInfo", user);
 			entity = handleSuccess("success");
 		} catch (RuntimeException e) {
 			entity = handleException(e);
