@@ -315,6 +315,7 @@ function maskStore(){
 		  controlUI.addEventListener('click', function() {
 			  initMap();
 			  $("#searchResult").empty();
+			  $("#maskResult").empty();
 		  });
 
 		}

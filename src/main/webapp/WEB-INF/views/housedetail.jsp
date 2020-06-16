@@ -87,6 +87,7 @@
 				</c:choose>
 				<br>
 			</div>
+			<c:if test="${userInfo.salary != null}">
 			<div class="card"
 				style="width: 18rem; position: fixed; top: 200px; right: 50px;">
 				<div class="card-body">
@@ -99,6 +100,7 @@
 					</div>
 				</div>
 			</div>
+			</c:if>
 		</section>
 	</main>
 	<footer id="footer">
@@ -184,7 +186,7 @@
 		});
 		$("#realb").click(function(){
 			var amount = parseInt('${housedeals.dealAmount}'.replace(/,/g, ''));
-			var year = (amount-${userInfo.assets})/${userInfo.salary};
+			var year = Math.round((amount-${userInfo.assets})/${userInfo.salary});
 			$("#canbuy").empty();
 			if(year<=0){
 				$("#canbuy").append("<h4>당신은 이곳에서 살 자격이 있습니다!!</h4>");
