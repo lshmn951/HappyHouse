@@ -164,17 +164,17 @@ function geocode(jsonData,flag) {
 		marker.setMap(map);
 	}
 	function callHouseDealInfo(maker) {
-		var contentstr = "<table>";
+		var contentstr = "<table class='table-bordered'><tr><th>식별 번호 </th><th>아파트 이름 </th><th> 층 </th><th>거래 금액 </th><th>거래 날짜 </th></tr>";
 		$.get("${pageContext.request.contextPath}/FSelectBoxController/aptDongName"
 				,{ name: maker.title,dong:maker.d}
 				,function(result){
 					$.each(result.data, function(index, vo) {
 						let str = "<tr class="+colorArr[index%3]+">"
 						+ "<td><a href=\"${pageContext.request.contextPath}/detail?no="+vo.no+"\">" + vo.no + "</td>"
-						+ "<td>" + vo.dong + "</td>"
 						+ "<td>" + vo.AptName + "</td>"
-						+ "<td>" + vo.jibun + "</td>"
-						+ "<td>" + vo.dealAmount + "</td>";
+						+ "<td> " + vo.floor + " </td>"
+						+ "<td>" + vo.dealAmount + "</td>"
+						+ "<td>" + vo.dealYear+"."+vo.dealMonth + "</td>";
 						contentstr += str;
 					});//each
 					contentstr += "</table>";

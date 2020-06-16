@@ -83,6 +83,29 @@ public HouseDeal(int no, String dong, String aptName, int code, int buildYear, S
 
 }
 
+
+	public HouseDeal(int no, String dong, String aptName, int code, String dealAmount, int buildYear, int dealYear,
+			int dealMonth, int dealDay, double area, int floor, String lat, String lng, String jibun, String type,
+			String rentMoney, String img) {
+		super();
+		this.no = no;
+		this.dong = dong;
+		this.aptName = aptName;
+		this.code = code;
+		this.dealAmount = dealAmount;
+		this.buildYear = buildYear;
+		this.dealYear = dealYear;
+		this.dealMonth = dealMonth;
+		this.dealDay = dealDay;
+		this.area = area;
+		this.floor = floor;
+		this.lat = lat;
+		this.lng = lng;
+		this.jibun = jibun;
+		this.type = type;
+		this.rentMoney = rentMoney;
+		this.img = img;
+	}
 	public int getNo() {
 		return no;
 	}

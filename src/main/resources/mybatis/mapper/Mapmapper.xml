@@ -33,7 +33,7 @@
   	</select>
    
 	<select id="selectAptDongName" parameterType="map" resultType="housedeal">
-		select no, dong, AptName, code, jibun,dealAmount from housedeal
+		select no, dong, AptName, code, jibun,dealAmount,floor,dealYear,dealMonth from housedeal
 		where AptName = #{name} and dong=#{dong}
 		order by no	
 	</select>

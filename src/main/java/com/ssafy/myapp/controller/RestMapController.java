@@ -110,7 +110,7 @@ public class RestMapController {
 		System.out.println(dong);
 		try {
 			List<HouseDeal> list = fService.selectAptDeal(" "+dong);
-			System.out.println(list.get(0).getAptName());
+			System.out.println("첫번째:"+list.get(0));
 			JSONArray arr = new JSONArray();
 			for(HouseDeal dto:list) {
 				JSONObject obj = new JSONObject();
@@ -120,6 +120,7 @@ public class RestMapController {
 				obj.put("code", dto.getCode());
 				obj.put("jibun", dto.getJibun());
 				obj.put("dealAmount", dto.getDealAmount());
+				
 				arr.add(obj);
 			}
 			entity = handleSuccess(arr);
@@ -150,6 +151,9 @@ public class RestMapController {
 				obj.put("code", dto.getCode());
 				obj.put("jibun", dto.getJibun());
 				obj.put("dealAmount", dto.getDealAmount());
+				obj.put("dealYear",dto.getDealYear());
+				obj.put("dealMonth",dto.getDealMonth());
+				obj.put("floor",dto.getFloor());
 				arr.add(obj);
 			}
 			entity = handleSuccess(arr);
