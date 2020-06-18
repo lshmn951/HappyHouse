@@ -186,17 +186,24 @@
 		});
 		$("#realb").click(function(){
 			var amount = parseInt('${housedeals.dealAmount}'.replace(/,/g, ''));
+			var dong = '${housedeals.dong}';
+			var aptName = '${housedeals.aptName}';
+			console.log(dong);
+			console.log(amount);
+			console.log(${userInfo.assets});
+			console.log(${userInfo.salary});
 			var year = Math.round((amount-${userInfo.assets})/${userInfo.salary});
 			$("#canbuy").empty();
 			if(year<=0){
 				$("#canbuy").append("<h4>당신은 이곳에서 살 자격이 있습니다!!</h4>");
 			}else {
-				$("#canbuy").append("<br><p>이 집을 사기까지 <strong>"+year+"</strong>년 남았습니다</p>");
+				
+				$("#canbuy").append(dong+" ").append(aptName).append("을(를) 사기까지 <strong>"+year+"</strong>년 동안 벌기만 해야합니다..</p>");
 				if(year<=5){
 					$("#canbuy").append("<br><h4>조금만 더 노력해 보세요~</h4>");
 				}else if(year>5 && year<=30){
-					$("#canbuy").append("<br><h4>노력만으로는 안될수도 있어요</h4><h4>저희가 추천하는 방법은...</h4>");
-					$("#canbuy").append("<a href='http://www.lotto.co.kr/' target='_blank'><img width='100%' src='resources/img/로또.jpg'/></a>");
+					$("#canbuy").append("<br><h4>월급만으로는 힘든 세상입니다</h4><h4>내 집 마련의 꿈을 위한 클릭!</h4>");
+					$("#canbuy").append("<a href='https://www.sportstoto.co.kr/' target='_blank'><img width='100%' src='resources/img/money.png'/></a>");
 					
 				}else{
 					$("#canbuy").append("<br><h4>이번생은 글렀네요 다음생에 도전해보세요~</h4>");
